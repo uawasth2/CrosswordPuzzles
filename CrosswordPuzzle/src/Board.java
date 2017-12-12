@@ -13,7 +13,7 @@ public class Board {
 		gameboard[0][2].changeAnswer('p'); gameboard[0][4].changeAnswer('f'); gameboard[0][7].changeAnswer('v');
 		gameboard[2][2].changeAnswer('p'); gameboard[2][4].changeAnswer('u'); gameboard[2][7].changeAnswer('g');
 		gameboard[4][2].changeAnswer('o'); gameboard[4][4].changeAnswer('t');	gameboard[4][7].changeAnswer('t'); 
-		gameboard[1][0].changeAnswer('f');gameboard[1][2].changeAnswer('l');gameboard[1][2].changeAnswer('o');
+		gameboard[1][0].changeAnswer('f');gameboard[1][1].changeAnswer('l');gameboard[1][2].changeAnswer('o');
 		gameboard[1][3].changeAnswer('u');gameboard[1][4].changeAnswer('r');gameboard[1][7].changeAnswer('e');
 		gameboard[1][8].changeAnswer('g');gameboard[1][9].changeAnswer('g');gameboard[1][10].changeAnswer('s');
 		gameboard[3][2].changeAnswer('c');
@@ -76,8 +76,8 @@ public class Board {
 	
 	public String[] initHints() {
 		return new String[] {"Across","(1,0) Used for baking","(1,7) Protein in a shell","(3,2) poultry",
-				"(5,0) the other white meat","(5,7) great with sauce","(8,2) american or swiss","(10,1) liquid dairy",
-				"Down","(0,2) movie snack","(0,4) best when ripe","(0,7) green is good","(5,0) type of pie","(6,4) t-bone"};
+				"(5,0) from a pig","(5,6) great with sauce","(8,2) american or swiss","(10,1) liquid dairy",
+				"Down","(0,2) movie snack","(0,4) best when ripe","(0,7) green is good","(5,0) cheesy pie","(6,4) t-bone"};
 	}
 	
 	public void printHints() {
@@ -96,8 +96,8 @@ public class Board {
 		}
 		char[] charInput = input.toCharArray();
 		int index = 0;
-		for (int i = b; i < charInput.length; i++) {
-			if (i > gameboard.length || gameboard[a][i].isUsed() == false) {
+		for (int i = b; i < charInput.length + b; i++) {
+			if (i >= gameboard.length || gameboard[a][i].isUsed() == false) {
 				break;
 			}
 			gameboard[a][i].input = charInput[index];
@@ -112,7 +112,7 @@ public class Board {
 		}
 		char[] charInput = input.toCharArray();
 		int index = 0;
-		for (int i = a; i < charInput.length; i++) {
+		for (int i = a; i < charInput.length + a; i++) {
 			if (i > gameboard.length || gameboard[i][b].isUsed() == false) {
 				break;
 			}
@@ -120,5 +120,18 @@ public class Board {
 			index++;
 		}
 		return true;
+	}
+	public boolean isGameOver() {
+		boolean ended = true;
+		for (int i = 0; i < gameboard.length; i++) {
+			for (int j = 0; j < gameboard.length; j++) {
+				if (gameboard[i][j].isUsed()) {
+					if (gameboard[i][j].getAnswer() != gameboard[i][j].input) {
+						ended = false;
+					}
+				}
+			}
+		}
+		return ended;
 	}
 }
